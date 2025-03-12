@@ -1,0 +1,496 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vocabulary Study Tool</title>
+    <style>
+        :root {
+            --bg-color: #ffffff;
+            --text-color: #333333;
+            --card-bg: #f5f5f5;
+            --border-color: #dddddd;
+            --primary-color: #4a6fa5;
+            --secondary-color: #6c757d;
+            --success-color: #28a745;
+            --hover-color: #e9ecef;
+        }
+
+        [data-theme="dark"] {
+            --bg-color: #222222;
+            --text-color: #f5f5f5;
+            --card-bg: #333333;
+            --border-color: #444444;
+            --primary-color: #6c8baf;
+            --secondary-color: #ced4da;
+            --success-color: #48c774;
+            --hover-color: #2c3034;
+        }
+
+        [data-theme="blue-light"] {
+            --bg-color: #edf4ff;
+            --text-color: #334155;
+            --card-bg: #dbeafe;
+            --border-color: #bfdbfe;
+            --primary-color: #3b82f6;
+            --secondary-color: #64748b;
+            --success-color: #22c55e;
+            --hover-color: #c7d2fe;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            transition: all 0.3s ease;
+            line-height: 1.6;
+            margin: 0;
+            padding: 0;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        h1 {
+            color: var(--primary-color);
+        }
+
+        .theme-toggle {
+            display: flex;
+            align-items: center;
+            justify-content: flex-end;
+            margin-bottom: 1rem;
+        }
+
+        .switch {
+            position: relative;
+            display: inline-block;
+            width: 180px;
+            height: 34px;
+            margin-left: 10px;
+        }
+
+        .switch select {
+            width: 100%;
+            height: 100%;
+            background-color: var(--card-bg);
+            color: var(--text-color);
+            border: 1px solid var(--border-color);
+            border-radius: 17px;
+            padding: 0 10px;
+            cursor: pointer;
+        }
+
+        .tab-buttons {
+            display: flex;
+            margin-bottom: 1rem;
+        }
+
+        .tab-button {
+            flex: 1;
+            padding: 0.75rem;
+            background-color: var(--card-bg);
+            border: 1px solid var(--border-color);
+            color: var(--text-color);
+            cursor: pointer;
+            transition: background-color 0.3s;
+            font-weight: bold;
+        }
+
+        .tab-button:first-child {
+            border-radius: 5px 0 0 5px;
+        }
+
+        .tab-button:last-child {
+            border-radius: 0 5px 5px 0;
+        }
+
+        .tab-button.active {
+            background-color: var(--primary-color);
+            color: white;
+        }
+
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        .input-area {
+            margin-bottom: 2rem;
+        }
+
+        textarea {
+            width: 100%;
+            min-height: 150px;
+            padding: 1rem;
+            border: 1px solid var(--border-color);
+            border-radius: 5px;
+            background-color: var(--card-bg);
+            color: var(--text-color);
+            font-size: 1rem;
+        }
+
+        button {
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            border-radius: 5px;
+            padding: 0.75rem 1.5rem;
+            cursor: pointer;
+            font-size: 1rem;
+            transition: background-color 0.3s;
+        }
+
+        button:hover {
+            opacity: 0.9;
+        }
+
+        .helper-text {
+            margin-top: 0.5rem;
+            color: var(--secondary-color);
+            font-size: 0.9rem;
+        }
+
+        .study-area, .review-area {
+            margin-top: 2rem;
+        }
+
+        .card {
+            background-color: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 5px;
+            padding: 2rem;
+            margin-bottom: 1rem;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .term {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: var(--primary-color);
+            margin-bottom: 1rem;
+        }
+
+        .definition-input {
+            width: 100%;
+            min-height: 100px;
+            padding: 1rem;
+            border: 1px solid var(--border-color);
+            border-radius: 5px;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            font-size: 1rem;
+            margin-bottom: 1rem;
+        }
+
+        .controls {
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .progress {
+            text-align: center;
+            margin-top: 1rem;
+            font-size: 1.1rem;
+        }
+
+        .review-item {
+            background-color: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 5px;
+            padding: 1.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .review-term {
+            font-size: 1.3rem;
+            font-weight: bold;
+            color: var(--primary-color);
+            margin-bottom: 0.5rem;
+        }
+
+        .review-definition {
+            margin-bottom: 0.5rem;
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        .controls-bottom {
+            display: flex;
+            justify-content: center;
+            margin-top: 2rem;
+        }
+
+        .controls-bottom button {
+            margin: 0 0.5rem;
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: 3rem;
+            color: var(--secondary-color);
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <div class="theme-toggle">
+                <label>Theme:</label>
+                <div class="switch">
+                    <select id="theme-select">
+                        <option value="light">Light Mode</option>
+                        <option value="dark">Dark Mode</option>
+                        <option value="blue-light">Blue Light Mode</option>
+                    </select>
+                </div>
+            </div>
+            <h1>Vocabulary Study Tool</h1>
+            <p>Practice memorizing vocabulary terms by defining them in your own words.</p>
+        </header>
+
+        <div class="tab-buttons">
+            <button class="tab-button active" data-tab="input">Input Terms</button>
+            <button class="tab-button" data-tab="study">Study</button>
+            <button class="tab-button" data-tab="review">Review</button>
+        </div>
+
+        <div id="input-tab" class="tab-content active">
+            <div class="input-area">
+                <h2>Add Vocabulary Terms</h2>
+                <textarea id="vocab-input" placeholder="Enter vocabulary terms, one per line or separated by commas, semicolons, or line breaks."></textarea>
+                <div class="helper-text">
+                    Example: photosynthesis, mitochondria, osmosis
+                </div>
+                <button id="process-vocab" style="margin-top: 1rem;">Start Studying</button>
+            </div>
+        </div>
+
+        <div id="study-tab" class="tab-content">
+            <div class="study-area">
+                <div id="empty-study" class="empty-state">
+                    <h2>No vocabulary terms to study</h2>
+                    <p>Please add some vocabulary terms in the Input tab.</p>
+                </div>
+                <div id="study-card" class="card hidden">
+                    <div class="term" id="current-term">Term</div>
+                    <textarea class="definition-input" id="user-definition" placeholder="Type your definition here..."></textarea>
+                    <div class="controls">
+                        <button id="prev-term">Previous</button>
+                        <button id="next-term">Next</button>
+                    </div>
+                    <div class="progress" id="progress-indicator">Term 1 of 10</div>
+                </div>
+                <div class="controls-bottom hidden" id="finish-controls">
+                    <button id="finish-studying">Finish & Review</button>
+                </div>
+            </div>
+        </div>
+
+        <div id="review-tab" class="tab-content">
+            <div class="review-area">
+                <div id="empty-review" class="empty-state">
+                    <h2>Nothing to review yet</h2>
+                    <p>Complete a study session to see your definitions here.</p>
+                </div>
+                <div id="review-list" class="hidden">
+                    <h2>Your Definitions</h2>
+                    <div id="review-items"></div>
+                    <div class="controls-bottom">
+                        <button id="restart-button">Start New Session</button>
+                        <button id="continue-button">Continue Studying</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Theme toggling
+            const themeSelect = document.getElementById('theme-select');
+            themeSelect.addEventListener('change', function() {
+                document.documentElement.setAttribute('data-theme', this.value === 'light' ? '' : this.value);
+            });
+
+            // Tab switching
+            const tabButtons = document.querySelectorAll('.tab-button');
+            const tabContents = document.querySelectorAll('.tab-content');
+
+            tabButtons.forEach(button => {
+                button.addEventListener('click', function() {
+                    const tabName = this.getAttribute('data-tab');
+                    
+                    tabButtons.forEach(btn => btn.classList.remove('active'));
+                    tabContents.forEach(content => content.classList.remove('active'));
+                    
+                    this.classList.add('active');
+                    document.getElementById(`${tabName}-tab`).classList.add('active');
+                });
+            });
+
+            // Vocabulary study functionality
+            let vocabularyTerms = [];
+            let userDefinitions = {};
+            let currentTermIndex = 0;
+
+            // Process vocabulary input
+            document.getElementById('process-vocab').addEventListener('click', function() {
+                const input = document.getElementById('vocab-input').value.trim();
+                
+                if (!input) {
+                    alert('Please enter some vocabulary terms.');
+                    return;
+                }
+                
+                // Split by common separators (comma, semicolon, newline)
+                const rawTerms = input.split(/[\n,;]+/).map(term => term.trim()).filter(term => term);
+                
+                if (rawTerms.length === 0) {
+                    alert('No valid terms found. Please check your input.');
+                    return;
+                }
+                
+                vocabularyTerms = rawTerms;
+                userDefinitions = {};
+                currentTermIndex = 0;
+                
+                // Reset definitions
+                vocabularyTerms.forEach(term => {
+                    userDefinitions[term] = '';
+                });
+                
+                // Show first term
+                showCurrentTerm();
+                
+                // Switch to study tab
+                document.querySelector('[data-tab="study"]').click();
+                
+                // Show study card, hide empty state
+                document.getElementById('empty-study').classList.add('hidden');
+                document.getElementById('study-card').classList.remove('hidden');
+                document.getElementById('finish-controls').classList.remove('hidden');
+            });
+
+            // Show current term
+            function showCurrentTerm() {
+                if (vocabularyTerms.length === 0) return;
+                
+                const currentTerm = vocabularyTerms[currentTermIndex];
+                document.getElementById('current-term').textContent = currentTerm;
+                document.getElementById('user-definition').value = userDefinitions[currentTerm] || '';
+                document.getElementById('progress-indicator').textContent = `Term ${currentTermIndex + 1} of ${vocabularyTerms.length}`;
+                
+                // Update button states
+                document.getElementById('prev-term').disabled = currentTermIndex === 0;
+                document.getElementById('next-term').disabled = currentTermIndex === vocabularyTerms.length - 1;
+            }
+
+            // Previous term button
+            document.getElementById('prev-term').addEventListener('click', function() {
+                // Save current definition
+                const currentTerm = vocabularyTerms[currentTermIndex];
+                userDefinitions[currentTerm] = document.getElementById('user-definition').value;
+                
+                // Go to previous term
+                if (currentTermIndex > 0) {
+                    currentTermIndex--;
+                    showCurrentTerm();
+                }
+            });
+
+            // Next term button
+            document.getElementById('next-term').addEventListener('click', function() {
+                // Save current definition
+                const currentTerm = vocabularyTerms[currentTermIndex];
+                userDefinitions[currentTerm] = document.getElementById('user-definition').value;
+                
+                // Go to next term
+                if (currentTermIndex < vocabularyTerms.length - 1) {
+                    currentTermIndex++;
+                    showCurrentTerm();
+                }
+            });
+
+            // Save definition on input
+            document.getElementById('user-definition').addEventListener('input', function() {
+                const currentTerm = vocabularyTerms[currentTermIndex];
+                userDefinitions[currentTerm] = this.value;
+            });
+
+            // Finish studying button
+            document.getElementById('finish-studying').addEventListener('click', function() {
+                // Save current definition
+                const currentTerm = vocabularyTerms[currentTermIndex];
+                userDefinitions[currentTerm] = document.getElementById('user-definition').value;
+                
+                // Generate review items
+                const reviewItemsContainer = document.getElementById('review-items');
+                reviewItemsContainer.innerHTML = '';
+                
+                vocabularyTerms.forEach(term => {
+                    const definition = userDefinitions[term] || '(No definition provided)';
+                    
+                    const reviewItem = document.createElement('div');
+                    reviewItem.className = 'review-item';
+                    
+                    const termElement = document.createElement('div');
+                    termElement.className = 'review-term';
+                    termElement.textContent = term;
+                    
+                    const definitionElement = document.createElement('div');
+                    definitionElement.className = 'review-definition';
+                    definitionElement.textContent = definition;
+                    
+                    reviewItem.appendChild(termElement);
+                    reviewItem.appendChild(definitionElement);
+                    reviewItemsContainer.appendChild(reviewItem);
+                });
+                
+                // Show review section
+                document.getElementById('empty-review').classList.add('hidden');
+                document.getElementById('review-list').classList.remove('hidden');
+                
+                // Switch to review tab
+                document.querySelector('[data-tab="review"]').click();
+            });
+
+            // Restart button
+            document.getElementById('restart-button').addEventListener('click', function() {
+                // Clear everything and go back to input tab
+                vocabularyTerms = [];
+                userDefinitions = {};
+                currentTermIndex = 0;
+                
+                document.getElementById('vocab-input').value = '';
+                document.getElementById('empty-study').classList.remove('hidden');
+                document.getElementById('study-card').classList.add('hidden');
+                document.getElementById('finish-controls').classList.add('hidden');
+                document.getElementById('empty-review').classList.remove('hidden');
+                document.getElementById('review-list').classList.add('hidden');
+                
+                document.querySelector('[data-tab="input"]').click();
+            });
+
+            // Continue studying button
+            document.getElementById('continue-button').addEventListener('click', function() {
+                // Go back to study tab
+                document.querySelector('[data-tab="study"]').click();
+            });
+        });
+    </script>
+</body>
+</html>
