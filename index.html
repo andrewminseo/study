@@ -3,621 +3,250 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>VocabMaster Pro</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <title>Vocabulary Study Tool</title>
     <style>
-        :root {
-            --bg-color: #f8f9fa;
-            --text-color: #212529;
-            --card-bg: #ffffff;
-            --border-color: #e9ecef;
-            --primary-color: #4361ee;
-            --primary-dark: #3a56d4;
-            --secondary-color: #6c757d;
-            --accent-color: #4cc9f0;
-            --success-color: #38b000;
-            --danger-color: #ef476f;
-            --warning-color: #ffd166;
-            --header-bg: #4361ee;
-            --header-text: #ffffff;
-            --shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
-            --hover-shadow: 0 10px 15px rgba(0, 0, 0, 0.1);
-            --transition: all 0.3s ease;
-            --radius: 12px;
-            --font-primary: 'Poppins', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
-        }
-
-        [data-theme="dark"] {
-            --bg-color: #121212;
-            --text-color: #f8f9fa;
-            --card-bg: #1e1e1e;
-            --border-color: #343a40;
-            --primary-color: #4361ee;
-            --primary-dark: #3a56d4;
-            --secondary-color: #adb5bd;
-            --accent-color: #4cc9f0;
-            --header-bg: #1a1a2e;
-            --hover-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
-        }
-
-        [data-theme="blue-light"] {
-            --bg-color: #ebf5ff;
-            --text-color: #1e3a8a;
-            --card-bg: #ffffff;
-            --border-color: #dbeafe;
-            --primary-color: #3b82f6;
-            --primary-dark: #2563eb;
-            --secondary-color: #64748b;
-            --accent-color: #38bdf8;
-            --header-bg: #3b82f6;
-            --hover-shadow: 0 8px 16px rgba(59, 130, 246, 0.2);
-        }
-
-        * {
+        body {
+            font-family: Arial, Helvetica, sans-serif;
+            background-color: #f0f0f0;
             margin: 0;
             padding: 0;
-            box-sizing: border-box;
+            color: #333333;
         }
-
-        body {
-            font-family: var(--font-primary);
-            background-color: var(--bg-color);
-            color: var(--text-color);
-            transition: var(--transition);
-            line-height: 1.6;
-            min-height: 100vh;
-            display: flex;
-            flex-direction: column;
-        }
-
+        
         .container {
-            max-width: 1000px;
+            width: 800px;
             margin: 0 auto;
-            padding: 0 1.5rem;
-            flex: 1;
+            background-color: #ffffff;
+            border: 1px solid #cccccc;
+            padding: 10px;
         }
-
+        
         header {
-            background-color: var(--header-bg);
-            color: var(--header-text);
-            padding: 1.5rem 0;
-            box-shadow: var(--shadow);
-            margin-bottom: 2rem;
-        }
-
-        .header-content {
-            max-width: 1000px;
-            margin: 0 auto;
-            padding: 0 1.5rem;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-        }
-
-        .logo {
-            display: flex;
-            align-items: center;
-            gap: 0.75rem;
-            font-size: 1.75rem;
-            font-weight: 700;
-        }
-
-        .logo i {
-            font-size: 2rem;
-        }
-
-        .theme-toggle {
-            display: flex;
-            align-items: center;
-            gap: 1rem;
-        }
-
-        .theme-label {
-            font-weight: 500;
-            letter-spacing: 0.5px;
-        }
-
-        .theme-select {
-            background-color: rgba(255, 255, 255, 0.2);
-            border: 1px solid rgba(255, 255, 255, 0.3);
-            border-radius: var(--radius);
+            background-color: #003366;
             color: white;
-            padding: 0.5rem 1rem;
-            cursor: pointer;
-            font-size: 0.9rem;
-            transition: var(--transition);
-        }
-
-        .theme-select:hover {
-            background-color: rgba(255, 255, 255, 0.3);
-        }
-
-        .theme-select option {
-            background-color: var(--card-bg);
-            color: var(--text-color);
-        }
-
-        .app-title {
+            padding: 10px;
+            margin-bottom: 15px;
             text-align: center;
-            margin-bottom: 1rem;
         }
-
-        .app-title h1 {
-            font-size: 2.5rem;
-            font-weight: 700;
-            margin-bottom: 0.5rem;
+        
+        h1 {
+            font-size: 24px;
+            margin: 5px 0;
         }
-
-        .app-title p {
-            font-size: 1.1rem;
-            color: var(--secondary-color);
-            max-width: 600px;
-            margin: 0 auto;
+        
+        p {
+            margin: 5px 0;
         }
-
+        
         .tabs {
             display: flex;
-            background-color: var(--card-bg);
-            border-radius: var(--radius);
-            box-shadow: var(--shadow);
-            margin-bottom: 2rem;
-            padding: 0.5rem;
-            position: relative;
-            z-index: 1;
+            margin-bottom: 15px;
+            border-bottom: 1px solid #cccccc;
         }
-
+        
         .tab-button {
-            flex: 1;
-            padding: 1rem;
-            border: none;
-            background: transparent;
-            color: var(--text-color);
-            font-size: 1rem;
-            font-weight: 600;
+            padding: 5px 10px;
+            background-color: #e0e0e0;
+            border: 1px solid #cccccc;
+            border-bottom: none;
+            margin-right: 5px;
             cursor: pointer;
-            border-radius: calc(var(--radius) - 4px);
-            position: relative;
-            z-index: 2;
-            transition: var(--transition);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 0.5rem;
         }
-
-        .tab-button:hover {
-            background-color: rgba(67, 97, 238, 0.1);
-        }
-
+        
         .tab-button.active {
+            background-color: #6699cc;
             color: white;
-            background-color: var(--primary-color);
         }
-
-        .tab-button i {
-            font-size: 1.25rem;
-        }
-
+        
         .tab-content {
             display: none;
-            animation: fadeIn 0.4s ease;
+            padding: 10px;
+            border: 1px solid #cccccc;
+            margin-bottom: 15px;
         }
-
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(10px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
+        
         .tab-content.active {
             display: block;
         }
-
-        .card {
-            background-color: var(--card-bg);
-            border-radius: var(--radius);
-            box-shadow: var(--shadow);
-            transition: var(--transition);
-            padding: 2rem;
-            margin-bottom: 2rem;
-        }
-
-        .card:hover {
-            box-shadow: var(--hover-shadow);
-        }
-
-        .card-header {
-            display: flex;
-            align-items: center;
-            gap: 0.75rem;
-            margin-bottom: 1.5rem;
-        }
-
-        .card-header h2 {
-            font-weight: 600;
-            font-size: 1.5rem;
-            color: var(--primary-color);
-        }
-
-        .card-header i {
-            font-size: 1.75rem;
-            color: var(--primary-color);
-        }
-
-        .input-area textarea {
+        
+        textarea {
             width: 100%;
-            min-height: 180px;
-            padding: 1.25rem;
-            border: 1px solid var(--border-color);
-            border-radius: var(--radius);
-            background-color: var(--card-bg);
-            color: var(--text-color);
-            font-size: 1rem;
-            line-height: 1.6;
-            transition: var(--transition);
-            resize: vertical;
-            box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.05);
-            font-family: var(--font-primary);
+            height: 150px;
+            border: 1px solid #cccccc;
+            padding: 5px;
+            margin-bottom: 10px;
+            font-family: Arial, sans-serif;
         }
-
-        .input-area textarea:focus {
-            outline: none;
-            border-color: var(--primary-color);
-            box-shadow: 0 0 0 3px rgba(67, 97, 238, 0.15);
-        }
-
+        
         .helper-text {
-            margin-top: 0.75rem;
-            color: var(--secondary-color);
-            font-size: 0.9rem;
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
+            font-size: 12px;
+            color: #666666;
+            margin-bottom: 10px;
         }
-
-        .helper-text i {
-            color: var(--accent-color);
-        }
-
+        
         .btn {
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            gap: 0.5rem;
-            background-color: var(--primary-color);
+            background-color: #6699cc;
             color: white;
-            border: none;
-            border-radius: var(--radius);
-            padding: 0.75rem 1.5rem;
+            border: 1px solid #336699;
+            padding: 5px 10px;
             cursor: pointer;
-            font-size: 1rem;
-            font-weight: 600;
-            letter-spacing: 0.3px;
-            transition: var(--transition);
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            font-size: 14px;
         }
-
+        
         .btn:hover {
-            background-color: var(--primary-dark);
-            transform: translateY(-2px);
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+            background-color: #336699;
         }
-
-        .btn:active {
-            transform: translateY(0);
-        }
-
-        .btn-secondary {
-            background-color: var(--secondary-color);
-        }
-
+        
         .btn-success {
-            background-color: var(--success-color);
+            background-color: #66cc66;
+            border-color: #339933;
         }
-
-        .btn-lg {
-            padding: 0.875rem 2rem;
-            font-size: 1.1rem;
+        
+        .btn-success:hover {
+            background-color: #339933;
         }
-
-        .study-card {
-            padding: 2.5rem;
-        }
-
-        .term {
-            font-size: 2rem;
-            font-weight: 700;
-            color: var(--primary-color);
-            margin-bottom: 1.5rem;
-            text-align: center;
-            letter-spacing: 0.5px;
-        }
-
-        .definition-input {
-            width: 100%;
-            min-height: 120px;
-            padding: 1.25rem;
-            border: 1px solid var(--border-color);
-            border-radius: var(--radius);
-            background-color: var(--bg-color);
-            color: var(--text-color);
-            font-size: 1.1rem;
-            line-height: 1.6;
-            transition: var(--transition);
-            resize: vertical;
-            margin-bottom: 1.5rem;
-            box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.05);
-            font-family: var(--font-primary);
-        }
-
-        .definition-input:focus {
-            outline: none;
-            border-color: var(--primary-color);
-            box-shadow: 0 0 0 3px rgba(67, 97, 238, 0.15);
-        }
-
+        
         .controls {
             display: flex;
             justify-content: space-between;
-            margin-top: 1.5rem;
+            margin-top: 10px;
         }
-
+        
         .controls-center {
-            display: flex;
-            justify-content: center;
-            gap: 1rem;
-            margin-top: 2rem;
+            text-align: center;
+            margin-top: 15px;
         }
-
-        .progress-container {
-            margin-top: 2rem;
+        
+        .term {
+            font-size: 20px;
+            font-weight: bold;
+            color: #003366;
+            margin-bottom: 10px;
             text-align: center;
         }
-
+        
+        .progress-container {
+            margin-top: 15px;
+            text-align: center;
+        }
+        
         .progress-text {
-            font-size: 1rem;
-            color: var(--secondary-color);
-            margin-bottom: 0.75rem;
-            font-weight: 500;
+            font-size: 12px;
+            color: #666666;
+            margin-bottom: 5px;
         }
-
+        
         .progress-bar {
-            height: 0.5rem;
-            background-color: var(--border-color);
-            border-radius: 1rem;
-            overflow: hidden;
+            height: 10px;
+            background-color: #cccccc;
+            border: 1px solid #999999;
         }
-
+        
         .progress-fill {
             height: 100%;
-            background-color: var(--primary-color);
-            transition: width 0.3s ease;
+            background-color: #6699cc;
         }
-
-        .review-item {
-            background-color: var(--card-bg);
-            border-radius: var(--radius);
-            box-shadow: var(--shadow);
-            padding: 1.5rem;
-            margin-bottom: 1.5rem;
-            transition: var(--transition);
-            border-left: 4px solid var(--primary-color);
-        }
-
-        .review-item:hover {
-            box-shadow: var(--hover-shadow);
-        }
-
-        .review-term {
-            font-size: 1.3rem;
-            font-weight: 600;
-            color: var(--primary-color);
-            margin-bottom: 0.75rem;
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-        }
-
-        .review-term i {
-            font-size: 1.25rem;
-            color: var(--accent-color);
-        }
-
-        .review-definition {
-            background-color: var(--bg-color);
-            padding: 1rem;
-            border-radius: var(--radius);
-            color: var(--text-color);
-            border: 1px solid var(--border-color);
-        }
-
-        .empty-state {
-            text-align: center;
-            padding: 4rem 2rem;
-            color: var(--secondary-color);
-        }
-
-        .empty-state i {
-            font-size: 3.5rem;
-            margin-bottom: 1.5rem;
-            color: var(--border-color);
-        }
-
-        .empty-state h2 {
-            font-size: 1.75rem;
-            margin-bottom: 1rem;
-            color: var(--text-color);
-        }
-
-        .empty-state p {
-            font-size: 1.1rem;
-            max-width: 500px;
-            margin: 0 auto;
-        }
-
-        .hidden {
-            display: none;
-        }
-
-        footer {
-            background-color: var(--header-bg);
-            color: var(--header-text);
-            text-align: center;
-            padding: 1.5rem;
-            margin-top: 3rem;
-        }
-
-        .footer-content {
-            max-width: 1000px;
-            margin: 0 auto;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .footer-logo {
-            font-weight: 700;
-            font-size: 1.2rem;
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-        }
-
-        .footer-links {
-            display: flex;
-            gap: 1.5rem;
-        }
-
-        .footer-links a {
-            color: rgba(255, 255, 255, 0.8);
-            text-decoration: none;
-            transition: var(--transition);
-        }
-
-        .footer-links a:hover {
-            color: white;
-        }
-
+        
         .stats-bar {
             display: flex;
             justify-content: space-around;
-            background-color: var(--card-bg);
-            border-radius: var(--radius);
-            padding: 1.5rem 1rem;
-            margin-bottom: 2rem;
-            box-shadow: var(--shadow);
+            margin-bottom: 15px;
+            border: 1px solid #cccccc;
+            padding: 10px;
         }
-
+        
         .stat-item {
             text-align: center;
         }
-
+        
         .stat-value {
-            font-size: 2rem;
-            font-weight: 700;
-            color: var(--primary-color);
-            margin-bottom: 0.5rem;
+            font-size: 18px;
+            font-weight: bold;
+            color: #003366;
+            margin-bottom: 5px;
         }
-
+        
         .stat-label {
-            color: var(--secondary-color);
-            font-size: 0.9rem;
-            font-weight: 500;
+            font-size: 12px;
+            color: #666666;
         }
-
-        @media (max-width: 768px) {
-            .tab-button span {
-                display: none;
-            }
-            
-            .tab-button i {
-                font-size: 1.5rem;
-            }
-            
-            .controls {
-                flex-direction: column;
-                gap: 1rem;
-            }
-            
-            .controls .btn {
-                width: 100%;
-            }
-            
-            .footer-content {
-                flex-direction: column;
-                gap: 1rem;
-            }
+        
+        .review-item {
+            border: 1px solid #cccccc;
+            margin-bottom: 10px;
+            padding: 10px;
+        }
+        
+        .review-term {
+            font-weight: bold;
+            color: #003366;
+            margin-bottom: 5px;
+        }
+        
+        .review-definition {
+            background-color: #f0f0f0;
+            padding: 5px;
+            border: 1px solid #cccccc;
+        }
+        
+        .empty-state {
+            text-align: center;
+            padding: 20px;
+            color: #666666;
+        }
+        
+        .hidden {
+            display: none;
+        }
+        
+        footer {
+            background-color: #003366;
+            color: white;
+            text-align: center;
+            padding: 10px;
+            margin-top: 15px;
+            font-size: 12px;
+        }
+        
+        .footer-links a {
+            color: white;
+            margin: 0 5px;
         }
     </style>
 </head>
 <body>
-    <header>
-        <div class="header-content">
-            <div class="logo">
-                <i class="fas fa-brain"></i>
-                <span>VocabMaster Pro</span>
-            </div>
-            <div class="theme-toggle">
-                <span class="theme-label">Theme:</span>
-                <select id="theme-select" class="theme-select">
-                    <option value="light">Light Mode</option>
-                    <option value="dark">Dark Mode</option>
-                    <option value="blue-light">Blue Light Mode</option>
-                </select>
-            </div>
-        </div>
-    </header>
-
     <div class="container">
-        <div class="app-title">
-            <h1>Master Vocabulary Effectively</h1>
-            <p>Strengthen your memory through active recall. Input terms, define them in your own words, and review your progress.</p>
-        </div>
+        <header>
+            <h1>Vocabulary Study Tool</h1>
+            <p>Learn and memorize vocabulary terms effectively</p>
+        </header>
 
         <div class="tabs">
-            <button class="tab-button active" data-tab="input">
-                <i class="fas fa-pen-to-square"></i>
-                <span>Input Terms</span>
-            </button>
-            <button class="tab-button" data-tab="study">
-                <i class="fas fa-book-open"></i>
-                <span>Study</span>
-            </button>
-            <button class="tab-button" data-tab="review">
-                <i class="fas fa-check-circle"></i>
-                <span>Review</span>
-            </button>
+            <button class="tab-button active" data-tab="input">Input Terms</button>
+            <button class="tab-button" data-tab="study">Study</button>
+            <button class="tab-button" data-tab="review">Review</button>
         </div>
 
         <div id="input-tab" class="tab-content active">
-            <div class="card">
-                <div class="card-header">
-                    <i class="fas fa-list-ul"></i>
-                    <h2>Add Vocabulary Terms</h2>
+            <h2>Add Vocabulary Terms</h2>
+            <div>
+                <textarea id="vocab-input" placeholder="Enter your vocabulary terms here. Separate terms using commas, line breaks, or semicolons."></textarea>
+                <div class="helper-text">
+                    Example: photosynthesis, mitochondria, osmosis, endoplasmic reticulum
                 </div>
-                <div class="input-area">
-                    <textarea id="vocab-input" placeholder="Enter your vocabulary terms here. Separate terms using commas, line breaks, or semicolons."></textarea>
-                    <div class="helper-text">
-                        <i class="fas fa-lightbulb"></i>
-                        <span>Example: photosynthesis, mitochondria, osmosis, endoplasmic reticulum</span>
-                    </div>
-                    <div style="text-align: center; margin-top: 2rem;">
-                        <button id="process-vocab" class="btn btn-lg">
-                            <i class="fas fa-play"></i>
-                            Start Studying
-                        </button>
-                    </div>
+                <div style="text-align: center;">
+                    <button id="process-vocab" class="btn">Start Studying</button>
                 </div>
             </div>
         </div>
 
         <div id="study-tab" class="tab-content">
             <div id="empty-study" class="empty-state">
-                <i class="fas fa-book"></i>
                 <h2>No vocabulary terms to study</h2>
                 <p>Please add some vocabulary terms in the Input tab to begin your study session.</p>
             </div>
             
-            <div id="study-card" class="card study-card hidden">
+            <div id="study-card" class="hidden">
                 <div class="term" id="current-term">Term</div>
                 <textarea class="definition-input" id="user-definition" placeholder="Type your definition here..."></textarea>
                 
@@ -629,28 +258,18 @@
                 </div>
                 
                 <div class="controls">
-                    <button id="prev-term" class="btn">
-                        <i class="fas fa-arrow-left"></i>
-                        Previous
-                    </button>
-                    <button id="next-term" class="btn">
-                        Next
-                        <i class="fas fa-arrow-right"></i>
-                    </button>
+                    <button id="prev-term" class="btn">Previous</button>
+                    <button id="next-term" class="btn">Next</button>
                 </div>
             </div>
             
             <div class="controls-center hidden" id="finish-controls">
-                <button id="finish-studying" class="btn btn-success btn-lg">
-                    <i class="fas fa-flag-checkered"></i>
-                    Finish & Review
-                </button>
+                <button id="finish-studying" class="btn btn-success">Finish & Review</button>
             </div>
         </div>
 
         <div id="review-tab" class="tab-content">
             <div id="empty-review" class="empty-state">
-                <i class="fas fa-clipboard-check"></i>
                 <h2>Nothing to review yet</h2>
                 <p>Complete a study session to see your definitions here.</p>
             </div>
@@ -671,50 +290,30 @@
                     </div>
                 </div>
                 
-                <div class="card">
-                    <div class="card-header">
-                        <i class="fas fa-list-check"></i>
-                        <h2>Your Definitions</h2>
-                    </div>
+                <div>
+                    <h2>Your Definitions</h2>
                     <div id="review-items"></div>
                 </div>
                 
                 <div class="controls-center">
-                    <button id="restart-button" class="btn">
-                        <i class="fas fa-rotate"></i>
-                        Start New Session
-                    </button>
-                    <button id="continue-button" class="btn btn-success">
-                        <i class="fas fa-edit"></i>
-                        Continue Studying
-                    </button>
+                    <button id="restart-button" class="btn">Start New Session</button>
+                    <button id="continue-button" class="btn btn-success">Continue Studying</button>
                 </div>
             </div>
         </div>
-    </div>
-
-    <footer>
-        <div class="footer-content">
-            <div class="footer-logo">
-                <i class="fas fa-brain"></i>
-                VocabMaster Pro
-            </div>
+        
+        <footer>
+            <div>Vocabulary Study Tool - © 2003</div>
             <div class="footer-links">
-                <a href="#" class="footer-link">About</a>
-                <a href="#" class="footer-link">Features</a>
-                <a href="#" class="footer-link">Contact</a>
+                <a href="#">About</a> | 
+                <a href="#">Features</a> | 
+                <a href="#">Contact</a>
             </div>
-        </div>
-    </footer>
+        </footer>
+    </div>
 
     <script>
         document.addEventListener('DOMContentLoaded', function() {
-            // Theme toggling
-            const themeSelect = document.getElementById('theme-select');
-            themeSelect.addEventListener('change', function() {
-                document.documentElement.setAttribute('data-theme', this.value === 'light' ? '' : this.value);
-            });
-
             // Tab switching
             const tabButtons = document.querySelectorAll('.tab-button');
             const tabContents = document.querySelectorAll('.tab-content');
@@ -858,7 +457,7 @@
                     
                     const termElement = document.createElement('div');
                     termElement.className = 'review-term';
-                    termElement.innerHTML = `<i class="fas fa-bookmark"></i> ${term}`;
+                    termElement.textContent = term;
                     
                     const definitionElement = document.createElement('div');
                     definitionElement.className = 'review-definition';
